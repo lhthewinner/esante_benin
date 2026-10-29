@@ -55,6 +55,8 @@ yarn-error.log*
 .DS_Store
 Thumbs.db
 
-# Scripts utilitaires locaux
+# Scripts utilitaires locaux et archives
 generer_captures_visuelles.py
 simuler_consultation_et_capturer.py
+generer_pdf_cahier_charges.py
+*_archive_*.pdf
