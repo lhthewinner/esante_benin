@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Santé Bénin — Assistant Vocal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bleu:   #0F3460;
+      --bleu2:  #1A5F9E;
+      --vert:   #059669;
+      --rouge:  #DC2626;
+      --orange: #D97706;
+      --fond:   #0A1628;
+      --blanc:  #FFFFFF;
+      --gris:   #94A3B8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--fond);
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      color: var(--blanc);
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(26,95,158,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(5,150,105,0.08) 0%, transparent 50%);
+    }
+
+    /* ── HEADER ── */
+    header {
+      width: 100%; padding: 18px 32px;
+      display: flex; align-items: center; gap: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+    }
+    .logo { font-size: 26px; }
+    .header-info h1 { font-family:'Playfair Display',serif; font-size:17px; color:var(--blanc); }
+    .header-info p  { font-size:11px; color:var(--gris); margin-top:1px; }
+    .header-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
+    .status {
+      display:flex; align-items:center; gap:6px;
+      background:rgba(5,150,105,0.12); border:1px solid rgba(5,150,105,0.25);
+      padding:5px 12px; border-radius:20px; font-size:11px; color:#34D399;
+    }
+    .dot { width:6px; height:6px; border-radius:50%; background:#34D399; animation:blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* ── MAIN ── */
+    main {
+      flex:1; display:flex; flex-direction:column;
+      align-items:center; width:100%; max-width:560px;
+      padding:28px 20px 20px;
+    }
+
+    /* ── TITRE ── */
+    .title-zone { text-align:center; margin-bottom:24px; }
+    .title-zone h2 { font-family:'Playfair Display',serif; font-size:26px; color:var(--blanc); margin-bottom:8px; }
+    .title-zone p  { font-size:13px; color:var(--gris); line-height:1.6; }
+
+    /* ── CONVERSATION ── */
+    .conv-log {
+      width:100%; flex:1;
+      max-height: calc(100vh - 380px);
+      min-height: 200px;
+      overflow-y:auto;
+      display:flex; flex-direction:column; gap:12px;
+      padding:4px 0; margin-bottom:16px;
+    }
+    .conv-log::-webkit-scrollbar { width:3px; }
+    .conv-log::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.08); border-radius:10px; }
+
+    /* ── ITEM CONVERSATION ── */
+    .conv-item {
+      display:flex; gap:8px; align-items:flex-end;
+      animation: fadeUp 0.35s ease;
+    }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+    .conv-item.user { flex-direction:row-reverse; }
+
+    .conv-avatar {
+      width:28px; height:28px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:13px; flex-shrink:0;
+    }
+    .conv-item.bot  .conv-avatar { background:rgba(26,95,158,0.35); }
+    .conv-item.user .conv-avatar { background:rgba(255,255,255,0.1); }
+
+    /* ── LECTEUR AUDIO STYLE WHATSAPP ── */
+    .audio-player {
+      display:flex; align-items:center; gap:10px;
+      border-radius:18px; padding:10px 14px;
+      max-width:85%; min-width:230px;
+    }
+    .audio-player.bot {
+      background:rgba(26,95,158,0.3);
+      border:1px solid rgba(26,95,158,0.4);
+      border-bottom-left-radius:4px;
+    }
+    .audio-player.user {
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.12);
+      border-bottom-right-radius:4px;
+    }
+
+    .play-btn {
+      width:38px; height:38px; border-radius:50%; border:none;
+      cursor:pointer; display:flex; align-items:center; justify-content:center;
+      font-size:14px; color:#fff; flex-shrink:0;
+      transition:all 0.2s;
+    }
+    .audio-player.bot  .play-btn { background:var(--bleu2); }
+    .audio-player.user .play-btn { background:rgba(255,255,255,0.2); }
+    .play-btn:hover { transform:scale(1.08); }
+    .play-btn.playing { background:var(--vert) !important; }
+
+    .player-info { flex:1; display:flex; flex-direction:column; gap:4px; min-width:0; }
+
+    .player-label { font-size:10px; font-weight:600; }
+    .audio-player.bot  .player-label { color:#34D399; }
+    .audio-player.user .player-label { color:rgba(255,255,255,0.5); }
+
+    .waveform { display:flex; align-items:center; gap:2px; height:20px; }
+    .waveform span {
+      width:2.5px; border-radius:2px; flex-shrink:0;
+      background:rgba(255,255,255,0.15); transition:background 0.1s;
+    }
+    .audio-player.bot  .waveform span.played { background:var(--bleu2); }
+    .audio-player.user .waveform span.played { background:rgba(255,255,255,0.5); }
+
+    .player-time { font-size:10px; color:var(--gris); display:flex; justify-content:space-between; }
+
+    /* ── CARTE MAPS ── */
+    .maps-card {
+      display:flex; align-items:center; gap:12px;
+      background:rgba(5,150,105,0.12);
+      border:1px solid rgba(5,150,105,0.25);
+      border-radius:16px; padding:13px 15px;
+      max-width:85%; text-decoration:none;
+      transition:background 0.2s, transform 0.15s;
+      animation:fadeUp 0.35s ease;
+    }
+    .maps-card:hover { background:rgba(5,150,105,0.2); transform:scale(1.02); }
+    .maps-icon { font-size:26px; flex-shrink:0; }
+    .maps-info { display:flex; flex-direction:column; gap:2px; }
+    .maps-nom   { font-size:12px; font-weight:600; color:#34D399; }
+    .maps-ville { font-size:11px; color:var(--gris); }
+    .maps-tel   { font-size:10px; color:#94A3B8; }
+    .maps-btn   { font-size:10px; color:#34D399; font-weight:600; margin-top:3px; }
+
+    /* ── BADGE URGENCE ── */
+    .urgence-badge {
+      display:none; padding:8px 18px; border-radius:25px;
+      font-size:12px; font-weight:600; text-align:center;
+      animation:fadeUp 0.4s ease; width:fit-content; margin:0 auto;
+    }
+    .urgence-badge.vert   { display:block; background:rgba(5,150,105,0.15); border:1px solid rgba(5,150,105,0.3); color:#34D399; }
+    .urgence-badge.orange { display:block; background:rgba(217,119,6,0.15); border:1px solid rgba(217,119,6,0.3); color:#FCD34D; }
+    .urgence-badge.rouge  { display:block; background:rgba(220,38,38,0.15); border:1px solid rgba(220,38,38,0.3); color:#F87171; }
+
+    /* ── FIN CONSULTATION ── */
+    .fin-banner {
+      display:none; width:100%;
+      background:rgba(5,150,105,0.1);
+      border:1px solid rgba(5,150,105,0.2);
+      border-radius:14px; padding:12px 16px;
+      text-align:center; color:#34D399;
+      font-size:12px; line-height:1.6;
+      animation:fadeUp 0.4s ease;
+    }
+    .fin-banner.show { display:block; }
+    .fin-banner strong { display:block; font-size:14px; margin-bottom:3px; }
+
+    /* ── BANNIÈRE MESSAGE DE BIENVENUE ── */
+    .bienvenue-banner {
+      display:none; width:100%;
+      background:rgba(26,95,158,0.15);
+      border:1px solid rgba(26,95,158,0.3);
+      border-radius:14px; padding:12px 16px;
+      text-align:center; color:#93C5FD;
+      font-size:13px; line-height:1.6;
+      margin-bottom:12px; animation:fadeUp 0.4s ease;
+      cursor:pointer; transition:background 0.2s;
+    }
+    .bienvenue-banner.show { display:block; }
+    .bienvenue-banner:hover { background:rgba(26,95,158,0.25); }
+
+    /* ── ZONE MIC ── */
+    .mic-zone {
+      display:flex; flex-direction:column;
+      align-items:center; gap:14px;
+      padding:20px 0 10px; width:100%;
+    }
+
+    .waves {
+      position:relative; width:130px; height:130px;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .wave {
+      position:absolute; border-radius:50%;
+      border:2px solid rgba(26,95,158,0.3);
+      animation:waveOut 2s infinite; opacity:0;
+    }
+    .wave:nth-child(1){width:130px;height:130px;animation-delay:0s}
+    .wave:nth-child(2){width:100px;height:100px;animation-delay:0.4s}
+    .wave:nth-child(3){width:72px; height:72px; animation-delay:0.8s}
+    @keyframes waveOut { 0%{transform:scale(0.8);opacity:0.6} 100%{transform:scale(1.2);opacity:0} }
+    .wave.recording { border-color:rgba(220,38,38,0.5); animation:waveRec 1s infinite; }
+    @keyframes waveRec { 0%{transform:scale(0.85);opacity:0.7} 100%{transform:scale(1.25);opacity:0} }
+
+    .mic-btn {
+      width:74px; height:74px; border-radius:50%; border:none;
+      cursor:pointer; display:flex; align-items:center; justify-content:center;
+      font-size:30px; position:relative; z-index:1;
+      transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+      background:linear-gradient(135deg, var(--bleu2), var(--bleu));
+      box-shadow:0 8px 28px rgba(15,52,96,0.5), 0 0 0 2px rgba(255,255,255,0.06);
+    }
+    .mic-btn:hover { transform:scale(1.08); }
+    .mic-btn:active { transform:scale(0.95); }
+    .mic-btn.recording {
+      background:linear-gradient(135deg, #DC2626, #991B1B);
+      box-shadow:0 8px 28px rgba(220,38,38,0.4);
+      animation:recBounce 0.8s infinite alternate;
+    }
+    @keyframes recBounce { from{transform:scale(1)} to{transform:scale(1.06)} }
+    .mic-btn.loading {
+      background:linear-gradient(135deg, #7C3AED, #5B21B6);
+      cursor:not-allowed;
+    }
+    .mic-btn:disabled { cursor:not-allowed; opacity:0.7; }
+
+    .sound-bar { display:flex; gap:3px; align-items:center; height:24px; opacity:0; transition:opacity 0.3s; }
+    .sound-bar.active { opacity:1; }
+    .sound-bar span {
+      width:3px; border-radius:3px; background:#F87171;
+      animation:barAnim 0.6s ease infinite alternate;
+    }
+    .sound-bar span:nth-child(1){height:7px;animation-delay:0.0s}
+    .sound-bar span:nth-child(2){height:18px;animation-delay:0.1s}
+    .sound-bar span:nth-child(3){height:24px;animation-delay:0.2s}
+    .sound-bar span:nth-child(4){height:18px;animation-delay:0.3s}
+    .sound-bar span:nth-child(5){height:10px;animation-delay:0.4s}
+    .sound-bar span:nth-child(6){height:20px;animation-delay:0.15s}
+    .sound-bar span:nth-child(7){height:7px;animation-delay:0.25s}
+    @keyframes barAnim { from{transform:scaleY(0.4)} to{transform:scaleY(1)} }
+
+    .state-label {
+      font-size:13px; font-weight:500; color:var(--gris);
+      text-align:center; min-height:20px; transition:all 0.3s;
+    }
+    .state-label.recording { color:#F87171; }
+    .state-label.loading   { color:#A78BFA; }
+    .state-label.erreur    { color:#F87171; }
+
+    .bottom-actions {
+      display:flex; gap:10px; align-items:center;
+    }
+    .reset-btn {
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.1);
+      color:var(--gris); padding:7px 16px;
+      border-radius:20px; font-family:'Outfit',sans-serif;
+      font-size:12px; cursor:pointer; transition:all 0.2s;
+    }
+    .reset-btn:hover { background:rgba(255,255,255,0.08); color:var(--blanc); }
+  </style>
+</head>
+<body>
+
+<header>
+  <!-- Avant -->
+<!--<div class="logo">🏥</div>
+
+Après -->
+<img src="/static/esblogo.jpeg" alt="E-Santé Bénin" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+  <div class="header-info">
+    <h1>E-Santé Bénin</h1>
+    <p>Assistant médical vocal · 24h/24</p>
+  </div>
+  <div class="header-right">
+    <div class="status"><span class="dot"></span>En ligne</div>
+  </div>
+</header>
+
+<main>
+  <div class="title-zone">
+    <h2>Parlez, je vous écoute 🩺</h2>
+    <p>Appuyez sur le bouton et décrivez vos symptômes.</p>
+  </div>
+
+  <!-- CORRECTION : bannière cliquable pour écouter le message de bienvenue -->
+  <div class="bienvenue-banner" id="bienvenBanner" onclick="jouerBienvenue()">
+    🔊 Appuyez ici pour écouter le message de bienvenue
+  </div>
+
+  <div class="conv-log" id="convLog"></div>
+
+  <div class="urgence-badge" id="urgenceBadge"></div>
+
+  <div class="fin-banner" id="finBanner">
+    <strong>✅ Consultation enregistrée</strong>
+    Vous pouvez continuer à poser des questions.
+  </div>
+
+  <div class="mic-zone">
+    <div class="waves">
+      <div class="wave" id="w1"></div>
+      <div class="wave" id="w2"></div>
+      <div class="wave" id="w3"></div>
+      <button class="mic-btn" id="micBtn" onclick="handleMic()">🎤</button>
+    </div>
+    <div class="sound-bar" id="soundBar">
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span>
+    </div>
+    <div class="state-label" id="stateLabel">Appuyez pour parler</div>
+    <div class="bottom-actions">
+      <button class="reset-btn" onclick="resetSession()">↺ Nouvelle consultation</button>
+    </div>
+  </div>
+</main>
+
+<script>
+  // CORRECTION : récupérer la session depuis sessionStorage si elle existe
+  let sessionId    = sessionStorage.getItem("esante_session_id") || "";
+  let isRecording  = false;
+  let isLoading    = false;
+  let mediaRecorder = null;
+  let audioChunks  = [];
+  let currentAudioEl  = null;
+  let currentPlayerId = null;
+  let progressInterval = null;
+
+  // Audio de bienvenue en attente d'interaction utilisateur
+  let audioBienvenueB64 = null;
+
+  const micBtn     = document.getElementById("micBtn");
+  const stateLabel = document.getElementById("stateLabel");
+  const soundBar   = document.getElementById("soundBar");
+  const waveEls    = [document.getElementById("w1"), document.getElementById("w2"), document.getElementById("w3")];
+  const convLog    = document.getElementById("convLog");
+
+  // Libérer la mémoire à la fermeture de la page
+  window.addEventListener("beforeunload", () => {
+    clearInterval(progressInterval);
+    if (currentAudioEl) {
+      currentAudioEl.src = "";
+      currentAudioEl = null;
+    }
+  });
+
+  function setState(state, messageErreur = "") {
+    micBtn.className = "mic-btn";
+    stateLabel.className = "state-label";
+    soundBar.className = "sound-bar";
+    waveEls.forEach(w => w.className = "wave");
+
+    if (state === "idle") {
+      micBtn.textContent = "🎤";
+      stateLabel.textContent = "Appuyez pour parler";
+      micBtn.disabled = false;
+    } else if (state === "recording") {
+      micBtn.className = "mic-btn recording";
+      micBtn.textContent = "⏹";
+      stateLabel.className = "state-label recording";
+      stateLabel.textContent = "Enregistrement... Appuyez pour arrêter";
+      soundBar.className = "sound-bar active";
+      waveEls.forEach(w => w.className = "wave recording");
+      micBtn.disabled = false;
+    } else if (state === "loading") {
+      micBtn.className = "mic-btn loading";
+      micBtn.textContent = "⏳";
+      stateLabel.className = "state-label loading";
+      stateLabel.textContent = "Analyse en cours...";
+      micBtn.disabled = true;
+    } else if (state === "erreur") {
+      micBtn.textContent = "🎤";
+      stateLabel.className = "state-label erreur";
+      stateLabel.textContent = messageErreur || "Une erreur s'est produite.";
+      micBtn.disabled = false;
+    }
+  }
+
+  function genererOndes(seed, nb = 28) {
+    // Ondes basées sur un seed pour être cohérentes à chaque affichage
+    return Array.from({length: nb}, (_, i) => {
+      const val = ((seed * 9301 + i * 49297) % 233280) / 233280;
+      return Math.floor(val * 16) + 4;
+    }).map(h => `<span style="height:${h}px"></span>`).join("");
+  }
+
+  function addAudioPlayer(b64OrUrl, role = "bot", isObjectUrl = false) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "conv-item " + role;
+    const avatar = role === "bot" ? "🩺" : "👤";
+    const label  = role === "bot" ? "🔊 Message vocal" : "🎤 Message vocal";
+    const pid    = "p_" + Date.now() + "_" + Math.random().toString(36).substr(2,5);
+    const seed   = parseInt(pid.replace(/\D/g, "").substr(0, 6)) || 42;
+
+    // Stocker le type de source pour togglePlay
+    wrapper.dataset.isObjectUrl = isObjectUrl ? "1" : "0";
+
+    wrapper.innerHTML = `
+      <div class="conv-avatar">${avatar}</div>
+      <div class="audio-player ${role}" id="${pid}" data-src="${b64OrUrl}" data-obj="${isObjectUrl ? 1 : 0}">
+        <button class="play-btn" id="btn_${pid}" onclick="togglePlay('${pid}')">▶</button>
+        <div class="player-info">
+          <div class="player-label">${label}</div>
+          <div class="waveform" id="wave_${pid}">${genererOndes(seed)}</div>
+          <div class="player-time">
+            <span id="cur_${pid}">0:00</span>
+            <span id="dur_${pid}">—</span>
+          </div>
+        </div>
+      </div>
+    `;
+    convLog.appendChild(wrapper);
+    convLog.scrollTop = convLog.scrollHeight;
+  }
+
+  function addMapsCard(info) {
+    if (!info) return;
+    const wrapper = document.createElement("div");
+    wrapper.className = "conv-item bot";
+    wrapper.innerHTML = `
+      <div class="conv-avatar">🩺</div>
+      <a class="maps-card" href="${info.lien}" target="_blank" rel="noopener">
+        <div class="maps-icon">📍</div>
+        <div class="maps-info">
+          <div class="maps-nom">🏥 ${info.nom}</div>
+          <div class="maps-ville">${info.ville}</div>
+          <div class="maps-tel">📞 ${info.tel}</div>
+          <div class="maps-btn">🗺️ Voir sur Google Maps →</div>
+        </div>
+      </a>
+    `;
+    convLog.appendChild(wrapper);
+    convLog.scrollTop = convLog.scrollHeight;
+  }
+
+  // CORRECTION : badge urgence uniquement sur fin_consultation avec niveau_urgence explicite
+  function afficherUrgence(niveauUrgence) {
+    const badge = document.getElementById("urgenceBadge");
+    badge.className = "urgence-badge";
+    if (!niveauUrgence) return;
+    const n = niveauUrgence.toLowerCase();
+    if (n === "rouge") {
+      badge.className = "urgence-badge rouge";
+      badge.textContent = "🔴 Urgence rouge — Consultez immédiatement";
+    } else if (n === "orange") {
+      badge.className = "urgence-badge orange";
+      badge.textContent = "🟠 Urgence orange — Consultation sous 48h";
+    } else if (n === "vert") {
+      badge.className = "urgence-badge vert";
+      badge.textContent = "🟢 Situation non urgente — Suivez les conseils";
+    }
+  }
+
+  function togglePlay(pid) {
+    const playerEl = document.getElementById(pid);
+    const src      = playerEl.dataset.src;
+    const isObj    = playerEl.dataset.obj === "1";
+    const btn      = document.getElementById("btn_" + pid);
+    const waveEl   = document.getElementById("wave_" + pid);
+    const curEl    = document.getElementById("cur_" + pid);
+    const durEl    = document.getElementById("dur_" + pid);
+    const barres   = waveEl.querySelectorAll("span");
+
+    if (currentAudioEl && currentPlayerId !== pid) {
+      currentAudioEl.pause();
+      currentAudioEl.currentTime = 0;
+      const oldBtn = document.getElementById("btn_" + currentPlayerId);
+      if (oldBtn) { oldBtn.textContent = "▶"; oldBtn.classList.remove("playing"); }
+      const oldWave = document.getElementById("wave_" + currentPlayerId);
+      if (oldWave) oldWave.querySelectorAll("span").forEach(s => s.classList.remove("played"));
+      clearInterval(progressInterval);
+    }
+
+    if (currentAudioEl && currentPlayerId === pid && !currentAudioEl.paused) {
+      currentAudioEl.pause();
+      btn.textContent = "▶"; btn.classList.remove("playing");
+      clearInterval(progressInterval);
+      return;
+    }
+
+    if (!currentAudioEl || currentPlayerId !== pid) {
+      const audioSrc = isObj ? src : "data:audio/mp3;base64," + src;
+      currentAudioEl  = new Audio(audioSrc);
+      currentPlayerId = pid;
+
+      currentAudioEl.onloadedmetadata = () => {
+        durEl.textContent = fmtTime(currentAudioEl.duration);
+      };
+      currentAudioEl.onended = () => {
+        btn.textContent = "▶"; btn.classList.remove("playing");
+        barres.forEach(s => s.classList.remove("played"));
+        curEl.textContent = "0:00";
+        clearInterval(progressInterval);
+        // CORRECTION : libérer la mémoire après lecture
+        currentAudioEl.src = "";
+        currentAudioEl  = null;
+        currentPlayerId = null;
+      };
+    }
+
+    currentAudioEl.play();
+    btn.textContent = "⏸"; btn.classList.add("playing");
+
+    progressInterval = setInterval(() => {
+      if (!currentAudioEl) return;
+      const pct    = currentAudioEl.currentTime / currentAudioEl.duration;
+      const played = Math.floor(pct * barres.length);
+      barres.forEach((s, i) => i < played ? s.classList.add("played") : s.classList.remove("played"));
+      curEl.textContent = fmtTime(currentAudioEl.currentTime);
+    }, 100);
+  }
+
+  function fmtTime(s) {
+    if (isNaN(s)) return "0:00";
+    return `${Math.floor(s/60)}:${Math.floor(s%60).toString().padStart(2,"0")}`;
+  }
+
+  // CORRECTION : jouer le message de bienvenue sur interaction utilisateur
+  function jouerBienvenue() {
+    if (!audioBienvenueB64) return;
+    document.getElementById("bienvenBanner").className = "bienvenue-banner";
+    const audio = new Audio("data:audio/mp3;base64," + audioBienvenueB64);
+    audio.onended = () => { audio.src = ""; };
+    audio.play().catch(e => console.warn("Lecture audio:", e));
+  }
+
+  async function handleMic() {
+    if (isLoading) return;
+    if (!isRecording) await startRecording();
+    else stopRecording();
+  }
+
+  async function startRecording() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+      mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+      mediaRecorder.onstop = async () => {
+        stream.getTracks().forEach(t => t.stop());
+        await envoyerAudio();
+      };
+      mediaRecorder.start();
+      isRecording = true;
+      setState("recording");
+    } catch (err) {
+      // CORRECTION : message d'erreur visible selon le type d'erreur
+      if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
+        setState("erreur", "❌ Accès au micro refusé. Vérifiez les permissions.");
+      } else if (err.name === "NotFoundError") {
+        setState("erreur", "❌ Aucun micro détecté sur cet appareil.");
+      } else {
+        setState("erreur", "❌ Micro non disponible. Réessayez.");
+      }
+    }
+  }
+
+  function stopRecording() {
+    if (mediaRecorder && isRecording) {
+      mediaRecorder.stop();
+      isRecording = false;
+    }
+  }
+
+  async function envoyerAudio() {
+    setState("loading");
+    isLoading = true;
+
+    const blob = new Blob(audioChunks, { type: "audio/wav" });
+
+    // CORRECTION : utiliser une URL objet au lieu de base64 pour le player utilisateur
+    const userAudioUrl = URL.createObjectURL(blob);
+
+    // CORRECTION : timeout de 60 secondes sur le fetch
+    const controller = new AbortController();
+    const timeoutId  = setTimeout(() => controller.abort(), 180000);
+
+    try {
+      const form = new FormData();
+      form.append("audio", blob, "recording.wav");
+      form.append("session_id", sessionId);
+
+      const res  = await fetch("/chat/audio", {
+        method: "POST",
+        body: form,
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+
+      const data = await res.json();
+
+      if (data.error) {
+        setState("erreur", "⚠️ " + data.error);
+        URL.revokeObjectURL(userAudioUrl);
+        isLoading = false;
+        return;
+      }
+
+      // CORRECTION : persister la session dans sessionStorage
+      sessionId = data.session_id;
+      sessionStorage.setItem("esante_session_id", sessionId);
+
+      addAudioPlayer(userAudioUrl, "user", true);
+      if (data.audio) addAudioPlayer(data.audio, "bot", false);
+      if (data.hopital_info) addMapsCard(data.hopital_info);
+
+      // CORRECTION : badge urgence uniquement si fin de consultation avec niveau explicite
+      if (data.fin_consultation && data.hopital_info) {
+        afficherUrgence(data.hopital_info.niveau_urgence || "");
+      }
+
+      if (data.fin_consultation) {
+        document.getElementById("finBanner").className = "fin-banner show";
+      }
+
+    } catch (err) {
+      clearTimeout(timeoutId);
+      URL.revokeObjectURL(userAudioUrl);
+      if (err.name === "AbortError") {
+        setState("erreur", "⏱️ Délai dépassé. Réessayez dans un instant.");
+      } else {
+        setState("erreur", "❌ Erreur de connexion. Le serveur est-il démarré ?");
+      }
+      isLoading = false;
+      return;
+    }
+
+    setState("idle");
+    isLoading = false;
+  }
+
+  async function resetSession() {
+    if (sessionId) {
+      await fetch(`/session/${sessionId}`, { method: "DELETE" }).catch(() => {});
+    }
+    sessionId = "";
+    sessionStorage.removeItem("esante_session_id");
+    convLog.innerHTML = "";
+    document.getElementById("urgenceBadge").className = "urgence-badge";
+    document.getElementById("finBanner").className = "fin-banner";
+    document.getElementById("bienvenBanner").className = "bienvenue-banner";
+    audioBienvenueB64 = null;
+    if (currentAudioEl) {
+      currentAudioEl.src = "";
+      currentAudioEl = null;
+    }
+    clearInterval(progressInterval);
+    setState("idle");
+    await chargerBienvenue();
+  }
+
+  async function chargerBienvenue() {
+    setState("loading");
+    try {
+      const form = new FormData();
+      form.append("message", "Bonjour");
+      form.append("session_id", "");
+
+      const res  = await fetch("/chat/text", { method: "POST", body: form });
+      const data = await res.json();
+
+      sessionId = data.session_id;
+      sessionStorage.setItem("esante_session_id", sessionId);
+
+      if (data.audio) {
+        // CORRECTION : stocker le base64 et afficher la bannière cliquable
+        // au lieu d'appeler .play() directement (bloqué par les navigateurs)
+        audioBienvenueB64 = data.audio;
+        addAudioPlayer(data.audio, "bot", false);
+        document.getElementById("bienvenBanner").className = "bienvenue-banner show";
+      }
+    } catch(e) {
+      console.warn("Erreur chargement bienvenue:", e);
+    }
+    setState("idle");
+  }
+
+  window.onload = chargerBienvenue;
+</script>
+</body>
+</html>
