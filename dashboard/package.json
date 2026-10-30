@@ -1,7 +1,9 @@
 {
-  "name": "dashboard",
+  "name": "esante-benin-dashboard",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "author": "Grâce ADJAFON <graceadjafon@gmail.com>",
+  "description": "Dashboard React de supervision médicale et régulation hospitalière pour E-Santé Bénin",
   "type": "module",
   "scripts": {
     "dev": "vite",
