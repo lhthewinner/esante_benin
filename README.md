@@ -6,7 +6,8 @@
 
 <p align="center">
   <strong>Plateforme intelligente de télémédecine, triage médical vocal et régulation des flux d'urgence hospitaliers au Bénin.</strong><br>
-  <em>Pilote déployé sur les communes d'Abomey-Calavi et de Godomey (Département de l'Atlantique).</em>
+  <em>🎓 Projet de Fin d'Études pour l'obtention de la <b>Licence Professionnelle en Systèmes Informatiques et Logiciels (SIL)</b><br>
+  Conçu, développé et soutenu avec succès par <b>Lucien HAIKOU</b> & <b>Grâce ADJAFON</b> — <b>Mention Très Bien 🏆</b></em>
 </p>
 
 <p align="center">
@@ -220,9 +221,9 @@ Pour une analyse exhaustive du protocole médical, des tables de données et de 
 
 ---
 
-## 👥 Équipe de Réalisation & Soutenance
+## 🎓 Soutenance & Cadre Académique
 
-Le projet **E-Santé Bénin** a été conçu, développé et soutenu avec succès par une équipe complémentaire :
+Ce projet a été conçu, développé et soutenu avec succès pour l'obtention du diplôme de **Licence Professionnelle en Systèmes Informatiques et Logiciels (SIL)** avec la **Mention Très Bien 🏆** par :
 
 - **Lucien HAIKOU** ([@Lucien](https://github.com/lucien-haikou)) — **Chef de Projet & Développeur Fullstack Lead (Backend / IA)**
   - *Architecture générale, pipeline vocal & triage IA, régulation hospitalière dynamique, base de données relationnelle MySQL (index de performance) & Redis, suite des 23 tests automatisés et authentification sécurisée soignant (HMAC-SHA256 & Login).*

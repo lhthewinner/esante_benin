@@ -2,7 +2,10 @@
 
 Application web de supervision médicale et de régulation hospitalière en temps réel pour le personnel soignant des communes d'Abomey-Calavi et de Godomey.
 
+*Projet de Fin d'Études pour l'obtention de la **Licence Professionnelle en Systèmes Informatiques et Logiciels (SIL)** — Soutenu avec succès, **Mention Très Bien** 🏆*
+
 **Responsable Conception & Développement Frontend :** Grâce ADJAFON ([@Grace](https://github.com/graceadjafon) - `graceadjafon@gmail.com`)  
+**Coordination & Sécurité Auth :** Lucien HAIKOU ([@Lucien](https://github.com/lucien-haikou) - `lucien9428@gmail.com`)  
 **Stack :** React 19, Vite, Tailwind CSS v4, Lucide Icons, Fetch API
 
 ---

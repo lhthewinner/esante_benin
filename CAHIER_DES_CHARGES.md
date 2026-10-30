@@ -1,6 +1,8 @@
 # 📘 Cahier des Charges & Spécifications Techniques — E-Santé Bénin
 
 **Projet :** E-Santé Bénin — Assistant Médical Vocal & Régulation Hospitalière Intelligente  
+**Cadre Académique :** Projet de Fin d'Études pour l'obtention de la Licence Professionnelle en Systèmes Informatiques et Logiciels (SIL)  
+**Distinction du Jury :** Soutenu avec succès — **Mention Très Bien 🏆**  
 **Auteurs :**  
 - **Lucien HAIKOU** (@Lucien) — Chef de Projet & Développeur Fullstack Lead (Backend / IA)  
 - **Grâce ADJAFON** (@Grace) — Co-développeuse & Responsable Interface Utilisateur (UI/UX) & Design  
