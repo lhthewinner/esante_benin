@@ -33,15 +33,33 @@ Au Bénin, la concentration urbaine autour d'Abomey-Calavi et de Godomey engendr
 
 ---
 
-## 📸 Aperçu des Interfaces
+## 📸 Aperçu des Interfaces (Captures Réelles du Mémoire)
+
+### 1. 🎙️ Consultation Médicale Patient (Multicanale : Web & Telegram)
 
 <div align="center">
 
-| Consultation Vocale & Chat avec l'IA | Supervision Médicale en Temps Réel |
+| Consultation Vocale & IA sur le Web | Échange Médical Complet sur Telegram |
 | :---: | :---: |
-| <img src="captures_tests/05_discussion_complete_bot.png" width="460" alt="Discussion Patient Bot" /> | <img src="captures_tests/06_dashboard_medical_apres_consultation.png" width="460" alt="Dashboard Médical" /> |
-| *Échange complet, triage rouge et itinéraire hospitalier* | *Tableau des consultations, alertes d'urgence et statistiques* |
+| <img src="captures_tests/consultation_complete_web.png" width="480" alt="Consultation Web E-Santé Bénin" /> | <img src="captures_tests/consultation_complete_telegramm.jpeg" width="380" alt="Consultation Telegram Bot" /> |
+| *Dialogue vocal patient, explication des causes et orientation* | *Triage d'urgence, conseils naturels et affectation hospitalière* |
 
+</div>
+
+### 2. 🏥 Supervision Clinique & Régulation Soignant (Dashboard React)
+
+<div align="center">
+
+| Tableau de Bord & Flux Sanitaires | Dossier Patient Détaillé & Analyse IA |
+| :---: | :---: |
+| <img src="captures_tests/dashboard_test.png" width="480" alt="Dashboard Soignant en Temps Réel" /> | <img src="captures_tests/detail_info_patient.png" width="380" alt="Dossier Patient Détaillé" /> |
+| *Indicateurs temps réel, consultations et alertes d'urgence* | *Fiche clinique complète, symptômes et orientation générée* |
+
+</div>
+
+<div align="center">
+  <img src="captures_tests/dasboaord_initial.png" width="880" alt="Vue Globale Dashboard E-Santé Bénin" /><br>
+  <em>Vue d'ensemble de la console médicale de régulation hospitalière (Abomey-Calavi & Godomey)</em>
 </div>
 
 ---
@@ -119,10 +137,12 @@ Pour éviter la saturation des urgences, l'algorithme sélectionne l'établissem
 │   ├── test_repartition_hopitaux.py
 │   └── test_session_manager.py
 │
-└── captures_tests/             # Dossier de validation officielle
-    ├── 01 à 06_*.png           # 6 captures haute résolution de tests et démonstrations
-    ├── rapport_tests_officiel.html  # Rapport interactif complet pytest-html
-    └── README.md
+└── captures_tests/             # Captures réelles de soutenance (Web, Telegram, Dashboard)
+    ├── consultation_complete_web.png
+    ├── consultation_complete_telegramm.jpeg
+    ├── dashboard_test.png
+    ├── dasboaord_initial.png
+    └── detail_info_patient.png
 ```
 
 ---
@@ -199,10 +219,7 @@ Le projet intègre une suite de **23 tests automatisés** couvrant l'ensemble de
 pytest -v
 ```
 
-Pour générer un nouveau rapport HTML interactif :
-```bash
-pytest --html=captures_tests/rapport_tests_officiel.html --self-contained-html
-```
+
 
 ---
 

@@ -250,7 +250,7 @@ Le système est couvert par une suite de **23 tests automatisés** exécutés vi
 - **2 tests de régulation hospitalière** : Élection systématique de l'hôpital le moins chargé et bascule sécurisée en cas d'indisponibilité momentanée de la base de données.
 - **4 tests du gestionnaire de sessions** : Stockage, lecture, suppression et bascule transparente en cas de panne Redis.
 
-*Taux de succès constaté : **100% (23/23 tests passés)**. Preuves visuelles et rapport interactif archivés dans `captures_tests/`.*
+*Taux de succès constaté : **100% (23/23 tests passés)**. Captures d'écran réelles et preuves de soutenance archivées dans `captures_tests/`.*
 
 ---
 
