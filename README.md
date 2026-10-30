@@ -220,6 +220,13 @@ Pour une analyse exhaustive du protocole médical, des tables de données et de 
 
 ---
 
-## 👨‍💻 Auteur & Soutenance
-Projet conçu, développé et soutenu avec succès par **Lucien (@Lucien)**.  
+## 👥 Équipe de Réalisation & Soutenance
+
+Le projet **E-Santé Bénin** a été conçu, développé et soutenu avec succès par une équipe complémentaire :
+
+- **Lucien HAIKOU** ([@Lucien](https://github.com/lucien-haikou)) — **Chef de Projet & Développeur Fullstack Lead (Backend / IA)**
+  - *Architecture générale, pipeline vocal & triage IA, régulation hospitalière dynamique, base de données relationnelle MySQL (index de performance) & Redis, suite des 23 tests automatisés et authentification sécurisée soignant (HMAC-SHA256 & Login).*
+- **Grâce ADJAFON** ([@Grace](https://github.com/graceadjafon)) — **Co-développeuse & Responsable Interface Utilisateur (UI/UX) & Design**
+  - *Direction artistique et conception des logos officiels du projet (`esblogo.jpeg`), application React 19 de supervision médicale (Dashboard Vite & Tailwind CSS), gestion visuelle des flux et des alertes d'urgence.*
+
 *Dédié à l'amélioration concrète de l'accès aux soins de santé et à la régulation hospitalière en République du Bénin.*

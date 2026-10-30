@@ -1,10 +1,12 @@
 # 📘 Cahier des Charges & Spécifications Techniques — E-Santé Bénin
 
 **Projet :** E-Santé Bénin — Assistant Médical Vocal & Régulation Hospitalière Intelligente  
-**Auteur :** Lucien (@Lucien)  
+**Auteurs :**  
+- **Lucien HAIKOU** (@Lucien) — Chef de Projet & Développeur Fullstack Lead (Backend / IA)  
+- **Grâce ADJAFON** (@Grace) — Co-développeuse & Responsable Interface Utilisateur (UI/UX) & Design  
 **Périmètre pilote :** Communes d'Abomey-Calavi et de Godomey (Département de l'Atlantique, République du Bénin)  
 **Statut du document :** Version Finale Validée Post-Soutenance  
-**Dernière mise à jour :** 29 octobre 2026  
+**Dernière mise à jour :** 30 octobre 2026  
 
 ---
 
@@ -24,6 +26,24 @@ Au Bénin, et particulièrement dans la conurbation dense d'Abomey-Calavi et de 
 3. **Conseils Naturels Sans Médicament Chimique :** Dispense uniquement des conseils hygiéno-diététiques et remèdes naturels locaux avec alertes d'interactions médicamenteuses.
 4. **Orientation Géolocalisée Équilibrée :** Calcule en temps réel la charge des établissements de santé et oriente le patient vers l'hôpital le moins sollicité de sa zone géographique, avec itinéraire GPS Google Maps et contact téléphonique direct.
 5. **Supervision Médicale Temps Réel :** Un tableau de bord réservé aux soignants permet de suivre les flux sanitaires et de traiter en priorité les alertes graves.
+
+### 1.3. Équipe de Réalisation & Répartition des Rôles
+
+Le projet est le fruit d'une collaboration technique complémentaire :
+
+- **Lucien HAIKOU — Chef de Projet & Développeur Fullstack Lead (Backend / IA)**
+  - **Pilotage & Architecture :** Conception générale de la solution, rédaction des spécifications et coordination technique.
+  - **Moteur IA & Triage Vocal :** Pipeline vocal asynchrone (Groq Whisper, LLM Llama, synthèse gTTS) et protocole médical conversationnel.
+  - **Régulation Hospitalière :** Modélisation de l'algorithme d'orientation et intégration de la cartographie sanitaire (Calavi & Godomey).
+  - **Données & Infrastructure :** Conception de la base relationnelle MySQL (index de performance) et gestionnaire de session hybride Redis.
+  - **Sécurité :** Authentification soignant de bout en bout (signature HMAC-SHA256 côté API et interface de connexion sécurisée).
+  - **Qualité logicielle :** Suite complète des 23 tests automatisés et canal Telegram.
+
+- **Grâce ADJAFON — Co-développeuse & Responsable Interface Utilisateur (UI/UX) & Design**
+  - **Direction Artistique & Branding :** Création des logos officiels du projet (`esblogo.jpeg`) et de la charte visuelle (déclinée sur le Web, le Dashboard et le Bot).
+  - **Développement Frontend :** Conception et intégration de l'application React moderne (React 19, Vite, Tailwind CSS).
+  - **Supervision Médicale :** Mise en page des indicateurs cliniques, du tableau des flux de consultations et du module de gestion des alertes d'urgence.
+  - **Expérience Utilisateur :** Ergonomie générale, accessibilité et évolutions futures des interfaces web.
 
 ---
 
