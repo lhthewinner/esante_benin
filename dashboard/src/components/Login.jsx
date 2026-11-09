@@ -113,7 +113,7 @@ export default function Login({ onLoginSuccess }) {
                 <span>Connexion en cours...</span>
               </>
             ) : (
-              <span>Accéder au Tableau de Bord 🔐</span>
+              <span>Accéder au Tableau de Bord</span>
             )}
           </button>
         </form>
