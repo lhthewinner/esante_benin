@@ -106,54 +106,60 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50">
 
-      {/* HEADER */}
-      <header className="bg-slate-900 px-8 py-4 flex items-center gap-4 shadow-lg sticky top-0 z-50">
-        <img src="/esblogo.jpeg" alt="E-Santé Bénin" className="w-10 h-10 object-cover rounded-full" />
-        <div>
-          <h1 className="text-white font-bold text-lg font-serif">E-Santé Bénin</h1>
-          <p className="text-slate-400 text-xs">Dashboard médical · Supervision des flux sanitaires</p>
+      {/* HEADER ÉPURÉ */}
+      <header className="bg-slate-900/95 backdrop-blur border-b border-slate-800 px-6 py-3 flex items-center justify-between gap-4 shadow-md sticky top-0 z-50">
+        
+        {/* Branding Gauche */}
+        <div className="flex items-center gap-3 shrink-0">
+          <img
+            src="/esblogo.jpeg"
+            alt="E-Santé Bénin"
+            className="w-9 h-9 object-cover rounded-full border border-emerald-500/40 shadow-sm shadow-emerald-900/30"
+          />
+          <div className="flex items-center gap-2.5">
+            <h1 className="text-white font-bold text-base tracking-tight whitespace-nowrap">
+              E-Santé Bénin
+            </h1>
+            <span className="hidden md:inline-flex items-center px-2 py-0.5 rounded-md bg-emerald-950/70 border border-emerald-800/40 text-emerald-400 text-[10px] font-medium tracking-wide uppercase">
+              Supervision Médicale
+            </span>
+          </div>
         </div>
 
-        <div className="ml-auto flex items-center gap-3">
+        {/* Actions Droite */}
+        <div className="flex items-center gap-2.5 shrink-0">
           
-          {/* Badge Médecin Connecté */}
-          <div className="hidden sm:flex items-center gap-2 bg-slate-800/80 border border-slate-700 px-3 py-1.5 rounded-full text-xs text-slate-300">
-            <span className="text-emerald-400">👨‍⚕️</span>
-            <span>{user?.nom || "Personnel Médical"}</span>
-            <span className="text-slate-500 font-mono text-[10px]">({user?.username || "admin"})</span>
-          </div>
-
-          <div className="flex items-center gap-2 bg-emerald-900/30 border border-emerald-700/40 px-3 py-1.5 rounded-full">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span className="text-emerald-400 text-xs font-medium">Session Active</span>
-          </div>
-
+          {/* Lien Accéder au bot */}
           <a
             href="http://localhost:8000"
             target="_blank"
-            rel="noopener"
-            className="bg-slate-700 hover:bg-slate-600 text-white text-xs px-3 py-1.5 rounded-full transition"
+            rel="noopener noreferrer"
+            className="hidden sm:inline-flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700/90 text-slate-300 hover:text-white border border-slate-700/80 text-xs px-3 py-1.5 rounded-lg transition whitespace-nowrap"
+            title="Accéder au bot de consultation"
           >
-            🤖 Ouvrir le bot
+            <span>Accéder au bot</span>
+            <span className="text-slate-500 text-[10px]">↗</span>
           </a>
 
+          {/* Bouton Actualiser */}
           <button
             onClick={chargerTout}
-            className="bg-slate-700 hover:bg-slate-600 text-white text-xs px-3 py-1.5 rounded-full transition cursor-pointer"
-            title="Rafraîchir les données"
+            className="inline-flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700/90 text-slate-300 hover:text-white border border-slate-700/80 text-xs px-3 py-1.5 rounded-lg transition cursor-pointer whitespace-nowrap shadow-sm"
+            title="Rafraîchir les flux et alertes"
           >
-            ↺ Actualiser
+            <span className="text-sm leading-none">↺</span>
+            <span className="hidden sm:inline">Actualiser</span>
           </button>
 
           {/* Bouton Déconnexion */}
           <button
             onClick={handleLogout}
-            className="bg-red-950/60 hover:bg-red-900/80 text-red-300 border border-red-800/50 text-xs px-3 py-1.5 rounded-full transition cursor-pointer flex items-center gap-1"
-            title="Fermer la session"
+            className="inline-flex items-center bg-red-950/40 hover:bg-red-900/60 text-red-300 hover:text-red-200 border border-red-800/50 text-xs px-3 py-1.5 rounded-lg transition cursor-pointer whitespace-nowrap shadow-sm"
+            title="Fermer la session de supervision"
           >
-            <span>Quitter</span>
-            <span>🚪</span>
+            Déconnexion
           </button>
+
         </div>
       </header>
 
